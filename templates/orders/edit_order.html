@@ -1,0 +1,77 @@
+<div class="modal fade" id="editOrderModal{{order.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5 text-center">Edit Order</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+            <form action="{% url 'edit-order' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                  <input type="number" id="order_id" name="order_id" value="{{order.id}}" hidden readonly required />
+                  <div class="row mb-3">
+                <div class="col">
+                  <label for="exampleInputPassword1" class="form-label fw-bold">Customer Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="customer_name"
+                    name="customer_name"
+                    value="{{order.customer_name}}"
+                    required
+                  />
+                </div>
+                
+                </div>
+                <div class="row mb-3">
+                  <div class="col">
+                    <label for="exampleInputPassword1" class="form-label fw-bold">Phone Number</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="customer_phone"
+                      name="customer_phone"
+                      value="{{order.customer_phone}}"
+                      required
+                    />
+                  </div>
+                  <div class="col">
+                    <label for="exampleInputPassword1" class="form-label fw-bold">Cost</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="delivery_cost"
+                      name="delivery_cost"
+                      value="{{order.delivery_cost}}"
+                      min="0"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col">
+                    <label for="exampleInputPassword1" class="form-label fw-bold">Order Number</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="order_number"
+                      name="order_number"
+                      value="{{order.order_number}}"
+                      required
+                    />
+                  </div>
+                </div>
+        
+                <div class="mb-2">
+                    <label for="exampleInputPassword1" class="form-label fw-bold">Customer Loction</label>
+                    <textarea class="form-control" id="customer_address" name="customer_address" rows="2">{{order.customer_address}}</textarea>
+                  </div>
+                       
+                <div class="text-center mt-2">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </div>
+              </form>
+      </div>
+    </div>
+  </div>

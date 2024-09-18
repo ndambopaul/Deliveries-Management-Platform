@@ -1,0 +1,42 @@
+<div class="modal fade" id="newPayoutModal{{payment.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5 text-center">New Rider Payout</b></h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+            <form action="{% url 'new-payout' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                  <input type="number" id="earning_id" name="earning_id" value="{{payment.id}}" hidden readonly />
+                  <div class="mb-3">
+                    <p><b>Rider: </b> {{payment.rider}}</p>
+                    <p><b>Month: </b> {{payment.month}} {{payment.year}}</p>
+                    <p><b>Total Amount: </b> {{payment.total_amount}}</p>
+                    <p><b>Amount Paid: </b> {{payment.amount_paid}}</p>
+                    <p><b>Balance: </b> {{payment.balance}}</p>
+                  </div>
+                  <hr>
+                  <div class="row mb-3">
+                    <div class="col">
+                    <label for="exampleInputPassword1" class="form-label fw-bold">Amount Paying</label>
+                    <input
+                        type="number"
+                        class="form-control"
+                        id="amount"
+                        name="amount"
+                        min="0"
+                        max="{{payment.balance}}"
+                        required
+                    />
+                    </div>
+                </div>
+                       
+                <div class="text-center mt-2">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </div>
+              </form>
+      </div>
+    </div>
+  </div>

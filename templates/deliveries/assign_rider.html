@@ -1,0 +1,28 @@
+<div class="modal fade" id="assignRiderModal{{delivery.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5 text-center">Assign Rider</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+            <form action="{% url 'assign-rider' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                <input type="number" id="delivery_id" name="delivery_id" value="{{delivery.id}}" hidden  readonly/>
+                <div class="mb-2">
+                    <label class="form-label">Select Rider</label>
+                    <select class="form-select" id="rider" name="rider">
+                        <option></option>
+                        {% for rider in riders %}
+                        <option value="{{rider.id}}">{{rider}}</option>
+                        {% endfor %}
+                    </select>
+                  </div>
+                <div class="text-center mt-2">
+                    <button type="submit" class="btn btn-primary">Assign Delivery Rider</button>
+                </div>
+              </div>
+              </form>
+      </div>
+    </div>
+  </div>

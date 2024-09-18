@@ -1,0 +1,36 @@
+<div class="modal fade" id="orderDetailsModal{{order.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Order Details</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col">
+                <p><b>Customer Name: </b>{{order.customer_name}}</p>
+                <p><b>Customer Phone: </b>{{order.customer_phone}}</p>
+                <p><b>Order From: </b>{{order.client}}</p>
+            </div>
+            <div class="col">
+                <p><b>Order Number: </b>{{order.order_number}}</p>
+                <p><b>Order Status: </b>{{order.order_status}}</p>
+                <p><b>Date Added: </b>{{order.created}}</p>
+            </div>
+          </div>
+          <div class="row text-center">
+            <p><b>Address: </b>{{order.customer_address}}</p>
+          </div>
+          <hr>
+          <div class="row">
+            {% for status in order.orderstatuses.all %}
+            <p><b>Previous Status: </b> {{status.previous_status}} ==> <b>Current Status: </b>{{status.next_status}}</p>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>

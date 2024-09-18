@@ -1,0 +1,33 @@
+<div class="modal fade" id="uploadOrdersModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5 text-center">Upload Orders for <b>{{client.name}}</b></h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+            <form action="{% url 'upload-orders' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                  <input type="number" id="client_id" name="client_id" value="{{client.id}}" hidden readonly />
+                 
+                <div class="row mb-2">
+                  <div class="col">
+                    <label for="exampleInputPassword1" class="form-label fw-bold">Orders File</label>
+                    <input
+                      type="file"
+                      class="form-control"
+                      id="orders_file"
+                      name="orders_file"
+                      required
+                    />
+                  </div>
+                </div>
+        
+                <div class="text-center mt-2">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </div>
+              </form>
+      </div>
+    </div>
+  </div>

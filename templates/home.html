@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col">
+        <div class="card m-2">
+            <div class="card-body">
+              <h5 class="card-title">Staff</h5>
+              <hr/>
+              <p class="card-text">Staff Count: {{staff_count}}</p>
+              <a href="#" class="btn btn-info">See List</a>
+            </div>
+          </div>
+    </div>
+    <div class="col">
+        <div class="card m-2">
+            <div class="card-body">
+              <h5 class="card-title">Customers</h5>
+              <hr/>
+              <p class="card-text">Count: {{customers_count}}</p>
+              <a href="#" class="btn btn-info">See List</a>
+            </div>
+          </div>
+    </div>
+    <div class="col">
+        <div class="card m-2">
+            <div class="card-body">
+              <h5 class="card-title">Orders Placed Today</h5>
+              <hr/>
+              <p class="card-text">Orders Count: {{orders_placed_today}}</p>
+              <a href="#" class="btn btn-info">See Report</a>
+            </div>
+          </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+        <div class="card m-2">
+            <div class="card-body">
+              <h5 class="card-title">Sales This Week</h5>
+              <hr/>
+              <p class="card-text">Amount: {{week_orders}}</p>
+              <a href="#" class="btn btn-info">See Report</a>
+            </div>
+          </div>
+    </div>
+    <div class="col">
+        <div class="card m-2">
+            <div class="card-body">
+              <h5 class="card-title">Sales This Month</h5>
+              <hr/>
+              <p class="card-text">Amount: {{month_orders}}</p>
+              <a href="#" class="btn btn-info">See Report</a>
+            </div>
+          </div>
+    </div>
+    <div class="col">
+        <div class="card m-2">
+            <div class="card-body">
+              <h5 class="card-title">Sales Today</h5>
+              <hr/>
+              <p class="card-text">Amount: {{orders_today}}</p>
+              <a href="#" class="btn btn-info">See Report</a>
+            </div>
+          </div>
+    </div>
+</div>
+{% endblock %}
