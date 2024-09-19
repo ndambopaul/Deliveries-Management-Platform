@@ -18,7 +18,7 @@ date_today = datetime.now().date()
 @login_required(login_url="/users/login")
 def deliveries(request):
     deliveries = Delivery.objects.filter(tenant=request.tenant).order_by("-created")
-    paginator = Paginator(deliveries, 10)
+    paginator = Paginator(deliveries, 8)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 

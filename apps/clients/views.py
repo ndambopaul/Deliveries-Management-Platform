@@ -118,7 +118,7 @@ def orders(request):
     orders = Order.objects.filter(tenant=request.tenant).order_by("-created")
     clients = Client.objects.filter(tenant=request.tenant).order_by("-created")
 
-    paginator = Paginator(orders, 10)
+    paginator = Paginator(orders, 8)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
