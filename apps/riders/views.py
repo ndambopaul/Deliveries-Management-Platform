@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 from apps.riders.models import Rider
 from apps.users.models import User
 from apps.deliveries.models import Delivery
+
+
 # Create your views here.
 @login_required(login_url="/users/login")
 def riders(request):
@@ -15,18 +17,20 @@ def riders(request):
 
     if request.method == "POST":
         search_text = request.POST.get("search_text")
-        riders = Rider.objects.filter(Q(user__id_number__icontains=search_text)).filter(tenant=request.tenant).order_by("-created")
+        riders = (
+            Rider.objects.filter(Q(user__id_number__icontains=search_text))
+            .filter(tenant=request.tenant)
+            .order_by("-created")
+        )
 
-    
     paginator = Paginator(riders, 10)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    context = {
-        "page_obj": page_obj
-    }
+    context = {"page_obj": page_obj}
 
     return render(request, "riders/riders.html", context)
+
 
 @login_required(login_url="/users/login")
 def new_rider(request):
@@ -59,15 +63,12 @@ def new_rider(request):
             city=city,
             country=country,
             photo=photo,
-            tenant=request.tenant
+            tenant=request.tenant,
         )
         user.set_password("1234")
         user.save()
 
-        Rider.objects.create(
-            user=user,
-            tenant=request.tenant
-        )
+        Rider.objects.create(user=user, tenant=request.tenant)
 
         return redirect("riders")
 
@@ -78,13 +79,10 @@ def rider_deliveries(request, id):
     rider = Rider.objects.get(id=id)
     deliveries = Delivery.objects.filter(rider=rider, tenant=request.tenant)
 
-    paginator = Paginator(deliveries, 10)
+    paginator = Paginator(deliveries, 8)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    context = {
-        "page_obj": page_obj,
-        "rider": rider
-    }
+    context = {"page_obj": page_obj, "rider": rider}
 
     return render(request, "riders/rider_deliveries.html", context)

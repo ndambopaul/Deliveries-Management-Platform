@@ -8,12 +8,13 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 class TenantMiddleware(MiddlewareMixin):
     def __init__(self, get_response):
         self.get_response = get_response
 
     def __call__(self, request):
-        domain = request.get_host().split(':')[0]  # Extract domain or subdomain
+        domain = request.get_host().split(":")[0]  # Extract domain or subdomain
         logger.debug(f"Processing request for domain: {domain}")
         try:
             request.tenant = Tenant.objects.get(domain=domain)
@@ -25,11 +26,13 @@ class TenantMiddleware(MiddlewareMixin):
         return response
 
 
-
 class LoginRequiredMiddleware(MiddlewareMixin):
     def process_request(self, request):
         # Check if the user is authenticated
         if not request.user.is_authenticated:
             # Allow access to login, logout, and any URL defined in LOGIN_EXEMPT_URLS
-            if not any(request.path.startswith(url) for url in getattr(settings, 'LOGIN_EXEMPT_URLS', [])):
+            if not any(
+                request.path.startswith(url)
+                for url in getattr(settings, "LOGIN_EXEMPT_URLS", [])
+            ):
                 return redirect(f"{reverse('login')}?next={request.path}")

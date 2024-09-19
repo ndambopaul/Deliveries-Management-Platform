@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
     "apps.core",
     "apps.users",
     "apps.clients",
@@ -55,7 +54,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    'Peleka.middleware.TenantMiddleware',
+    "Peleka.middleware.TenantMiddleware",
 ]
 
 ROOT_URLCONF = "Peleka.urls"
@@ -140,4 +139,4 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 BASE_DOMAIN = "127.0.0.1"
-LOGOUT_REDIRECT_URL ="login"
+LOGOUT_REDIRECT_URL = "login"

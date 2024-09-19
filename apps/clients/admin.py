@@ -1,9 +1,18 @@
 from django.contrib import admin
 from apps.clients.models import Order, OrderStatusUpdate, Client
+
+
 # Register your models here.
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ["id", "created", "client", "tenant", "customer_name", "order_status"]
+    list_display = [
+        "id",
+        "created",
+        "client",
+        "tenant",
+        "customer_name",
+        "order_status",
+    ]
 
 
 @admin.register(OrderStatusUpdate)

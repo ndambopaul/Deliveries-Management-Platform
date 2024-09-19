@@ -1,6 +1,7 @@
 from django.db import models
 
 from apps.core.models import AbstractBaseModel
+
 # Create your models here.
 DELIVERY_STATUS = (
     ("Created", "Created"),
@@ -9,6 +10,7 @@ DELIVERY_STATUS = (
     ("Complete", "Complete"),
     ("Pending Dispatch", "Pending Dispatch"),
 )
+
 
 class Delivery(AbstractBaseModel):
     tenant = models.ForeignKey("tenants.Tenant", on_delete=models.CASCADE)
@@ -19,6 +21,7 @@ class Delivery(AbstractBaseModel):
 
     def __str__(self):
         return self.order.order_number
+
 
 class DeliveryStatusUpdate(AbstractBaseModel):
     delivery = models.ForeignKey(Delivery, on_delete=models.CASCADE)

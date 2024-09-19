@@ -13,6 +13,7 @@ from apps.payments.models import RiderEarning, RiderPayment
 
 date_today = datetime.now().date()
 
+
 # Create your views here.
 @login_required(login_url="/users/login")
 def deliveries(request):
@@ -23,12 +24,10 @@ def deliveries(request):
 
     riders = Rider.objects.filter(tenant=request.tenant).filter(busy=False)
 
-    context = {
-        "page_obj": page_obj,
-        "riders": riders
-    }
+    context = {"page_obj": page_obj, "riders": riders}
 
     return render(request, "deliveries/deliveries.html", context)
+
 
 @login_required(login_url="/users/login")
 @transaction.atomic
@@ -43,23 +42,21 @@ def complete_delivery(request):
         delivery.rider.save()
 
         DeliveryStatusUpdate.objects.create(
-            delivery=delivery,
-            previous_status="Dispatched",
-            next_status="Completed"
+            delivery=delivery, previous_status="Dispatched", next_status="Completed"
         )
 
         delivery.order.order_status = "Delivered"
         delivery.order.save()
 
         OrderStatusUpdate.objects.create(
-            order=delivery.order,
-            previous_status="Dispatched",
-            next_status="Delivered"
+            order=delivery.order, previous_status="Dispatched", next_status="Delivered"
         )
 
         ## Handle Rider Payment
-        month_name=calendar.month_name[date_today.month]
-        rider_earning = RiderEarning.objects.filter(rider=delivery.rider, month=month_name).first()
+        month_name = calendar.month_name[date_today.month]
+        rider_earning = RiderEarning.objects.filter(
+            rider=delivery.rider, month=month_name
+        ).first()
 
         if rider_earning:
             rider_payment = RiderPayment.objects.create(
@@ -67,7 +64,7 @@ def complete_delivery(request):
                 tenant=request.tenant,
                 rider=delivery.rider,
                 amount=delivery.delivery_cost,
-                delivery=delivery
+                delivery=delivery,
             )
 
             rider_payment.earning.total_amount += rider_payment.amount
@@ -79,7 +76,7 @@ def complete_delivery(request):
                 tenant=request.tenant,
                 rider=delivery.rider,
                 month=month_name,
-                year=date_today.year
+                year=date_today.year,
             )
 
             rider_payment = RiderPayment.objects.create(
@@ -87,16 +84,16 @@ def complete_delivery(request):
                 tenant=request.tenant,
                 rider=delivery.rider,
                 amount=delivery.delivery_cost,
-                delivery=delivery
+                delivery=delivery,
             )
 
             rider_payment.earning.total_amount += rider_payment.amount
             rider_payment.earning.balance += rider_payment.amount
             rider_payment.earning.save()
-        
 
-        return redirect("deliveries")
+        return redirect("deliveries-in-transit")
     return render(request, "deliveries/mark_complete.html")
+
 
 @login_required(login_url="/users/login")
 def assign_rider(request):
@@ -111,8 +108,9 @@ def assign_rider(request):
         delivery.rider = rider
         delivery.save()
 
-        return redirect("deliveries")
+        return redirect("deliveries-pending-dispatch")
     return render(request, "deliveries/assign_rider.html")
+
 
 @login_required(login_url="/users/login")
 @transaction.atomic
@@ -130,7 +128,7 @@ def dispatch_delivery(request):
         DeliveryStatusUpdate.objects.create(
             delivery=delivery,
             previous_status="Pending Dispatch",
-            next_status="Dispatched"
+            next_status="Dispatched",
         )
 
         delivery.order.order_status = "Dispatched"
@@ -139,8 +137,55 @@ def dispatch_delivery(request):
         OrderStatusUpdate.objects.create(
             order=delivery.order,
             previous_status="Set For Delivery",
-            next_status="Dispatched"
+            next_status="Dispatched",
         )
 
-        return redirect("deliveries")
+        return redirect("deliveries-pending-dispatch")
     return render(request, "deliveries/dispatch_delivery.html")
+
+
+@login_required(login_url="/users/login")
+def complete_deliveries(request):
+    deliveries = Delivery.objects.filter(
+        tenant=request.tenant, delivery_status="Complete"
+    ).order_by("-created")
+
+    paginator = Paginator(deliveries, 8)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    context = {"page_obj": page_obj}
+
+    return render(request, "deliveries/complete_deliveries.html", context)
+
+
+@login_required(login_url="/users/login")
+def deliveries_pending_dispatch(request):
+    deliveries = Delivery.objects.filter(
+        tenant=request.tenant, delivery_status="Pending Dispatch"
+    ).order_by("rider")
+
+    paginator = Paginator(deliveries, 8)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    riders = Rider.objects.filter(tenant=request.tenant).filter(busy=False)
+
+    context = {"page_obj": page_obj, "riders": riders}
+
+    return render(request, "deliveries/deliveries_pending_dispatch.html", context)
+
+
+@login_required(login_url="/users/login")
+def deliveries_in_transit(request):
+    deliveries = Delivery.objects.filter(
+        tenant=request.tenant, delivery_status="In Transit"
+    ).order_by("-created")
+
+    paginator = Paginator(deliveries, 8)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    context = {"page_obj": page_obj}
+
+    return render(request, "deliveries/deliveries_in_transit.html", context)

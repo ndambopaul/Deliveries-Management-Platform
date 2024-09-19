@@ -47,11 +47,12 @@
                 <a href="" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#assignRiderModal{{ delivery.id }}"><i class="bi bi-person-add"></i></a>
                 {% endif %}</td>
               <td>{{delivery.order.customer_phone}}</td>
+              <td>{{delivery.delivery_cost}}</td>
               <td>{{delivery.delivery_status}}</td>
               <td>
                 <a href="" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#orderDetailsModal{{ order.id }}"><i class="bi bi-eye-fill"></i></a>
               </td>
-              <td>{{delivery.delivery_cost}}</td>
+             
               <td>
                 {% if delivery.rider %}
                     {% if delivery.delivery_status == "In Transit" %}
