@@ -20,7 +20,7 @@ from apps.riders.models import Rider
 def rider_earnings(request):
     earnings = RiderEarning.objects.filter(tenant=request.tenant)
 
-    paginator = Paginator(earnings, 10)
+    paginator = Paginator(earnings, 8)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
@@ -33,7 +33,7 @@ def earning_payments(request, id):
     earning = RiderEarning.objects.get(id=id)
     rider_payments = RiderPayment.objects.filter(earning=earning).order_by("-created")
 
-    paginator = Paginator(rider_payments, 10)
+    paginator = Paginator(rider_payments, 8)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
@@ -47,7 +47,7 @@ def rider_payments(request):
         "-created"
     )
 
-    paginator = Paginator(rider_payments, 10)
+    paginator = Paginator(rider_payments, 8)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
@@ -61,7 +61,7 @@ def rider_payouts(request):
         "-created"
     )
 
-    paginator = Paginator(rider_payouts, 10)
+    paginator = Paginator(rider_payouts, 8)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 

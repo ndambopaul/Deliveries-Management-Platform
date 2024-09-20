@@ -10,8 +10,8 @@
                 <div class="modal-body">
                 <input type="number" id="delivery_id" name="delivery_id" value="{{delivery.id}}" hidden  readonly/>
                 <div class="mb-2">
-                    <label class="form-label">Select Rider</label>
-                    <select class="form-select" id="rider" name="rider">
+                    <label class="form-label fw-bold">Select Rider</label>
+                    <select class="form-select" id="rider" name="rider" required>
                         <option></option>
                         {% for rider in riders %}
                         <option value="{{rider.id}}">{{rider}}</option>

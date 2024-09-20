@@ -58,6 +58,7 @@
                   <i class="bi bi-trash"></i>
                 </a>
                 <a href="" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#dispatchOrderModal{{ order.id }}"><i class="bi bi-truck"></i></a>
+                <a href="" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addOrderToDeliveryModal{{ order.id }}"><i class="fas fa-shipping-fast"></i></a>
                 {% endif %}
                 {% endif %}
               </td>
@@ -65,6 +66,7 @@
              {% include "orders/delete_order.html" %}
             {% include "orders/order_details.html" %}
             {% include "orders/dispatch_order.html" %}
+            {% include "deliveries/bundled_deliveries/add_order_to_delivery.html" %}
             </tr>
             
             {% endfor %}

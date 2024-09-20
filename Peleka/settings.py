@@ -37,6 +37,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
+    "rest_framework",
+    "corsheaders",
+
     "apps.core",
     "apps.users",
     "apps.clients",
@@ -44,11 +48,14 @@ INSTALLED_APPS = [
     "apps.riders",
     "apps.tenants",
     "apps.payments",
+
+    "integrations",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -140,3 +147,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 BASE_DOMAIN = "127.0.0.1"
 LOGOUT_REDIRECT_URL = "login"
+
+
+CORS_ALLOW_ALL_ORIGINS = True

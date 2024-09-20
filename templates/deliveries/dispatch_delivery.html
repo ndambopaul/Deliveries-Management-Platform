@@ -9,7 +9,11 @@
                 {% csrf_token %}
                 <div class="modal-body">
                 <div class="mb-2">
+                  {% if delivery.delivery_type == "Multiple Orders" %}
+                    <p>Are you sure to dispatch bundled delivery for rided named: <b>{{delivery.rider}}</b></p>
+                  {% else %}
                     <p>Are you sure to dispatch delivery for order number: <b>{{delivery.order.order_number}}</b>?</p>
+                  {% endif %}
                 </div>
                 <div class="mb-2">
                     <input

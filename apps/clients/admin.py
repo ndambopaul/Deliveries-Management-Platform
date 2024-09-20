@@ -22,4 +22,4 @@ class OrderStatusUpdateAdmin(admin.ModelAdmin):
 
 @admin.register(Client)
 class ClientAdmin(admin.ModelAdmin):
-    list_display = ["id", "created", "name", "tenant", "phone_number", "website"]
+    list_display = ["id", "client_uuid", "created", "name", "tenant", "phone_number", "website"]

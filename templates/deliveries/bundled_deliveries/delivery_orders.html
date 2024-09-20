@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block additional_css %}
+{% endblock additional_css %}
+
+{% block content %}
+<div class="row">
+    <div class="col">
+        <h3>Orders Bundled In Delivery</h3>
+    </div>
+</div>
+      <div class="table-responsive small">
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Client</th>
+              <th scope="col">Customer</th>
+              <th scope="col">Phone</th>
+              <th scope="col">Order Number</th>
+              <th scope="col">Cost</th>
+              <th scope="col">Status</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for delivery in orders %}
+            <tr>
+              <td>{{delivery.id}}</td>
+              <td>{{delivery.order.client}}</td>
+              <td>{{delivery.order.customer_name}}</td>
+              <td>{{delivery.order.customer_phone}}</td>
+              <td>{{delivery.order.order_number}}</td>
+              <td>{{delivery.delivery_cost}}</td>
+              <td>{{delivery.delivery_status}}</td>
+              <td>
+                <a href="" class="btn btn-info btn-sm"><i class="bi bi-eye-fill"></i></a>
+              </td>
+             
+            {% include "orders/order_details.html" %}
+            </tr>
+            
+            {% endfor %}
+
+          </tbody>
+        </table>
+     
+      </div>
+{% endblock content %}

@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 
 from apps.core.models import AbstractBaseModel
@@ -5,6 +6,7 @@ from apps.core.models import AbstractBaseModel
 
 # Create your models here.
 class Client(AbstractBaseModel):
+    client_uuid = models.UUIDField(default=uuid.uuid4())
     tenant = models.ForeignKey("tenants.Tenant", on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=255)
@@ -29,9 +31,7 @@ ORDER_STATUSES = (
 
 class Order(AbstractBaseModel):
     tenant = models.ForeignKey("tenants.Tenant", on_delete=models.CASCADE)
-    client = models.ForeignKey(
-        Client, on_delete=models.CASCADE, related_name="clientorders"
-    )
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name="clientorders")
     order_number = models.CharField(max_length=255)
     customer_name = models.CharField(max_length=255)
     customer_phone = models.CharField(max_length=255)
@@ -41,6 +41,8 @@ class Order(AbstractBaseModel):
         max_length=255, choices=ORDER_STATUSES, default="Pending Dispatch"
     )
     delivery_cost = models.DecimalField(max_digits=100, decimal_places=2, default=0)
+    delivery_urgency = models.CharField(max_length=255, null=True)
+    additional_details = models.JSONField(default=dict)
 
     def __str__(self):
         return self.order_number

@@ -42,7 +42,7 @@ def client_orders(request, id):
     client = Client.objects.get(id=id)
     orders = client.clientorders.all().order_by("-created")
 
-    paginator = Paginator(orders, 10)
+    paginator = Paginator(orders, 8)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
