@@ -1,68 +1,85 @@
 {% extends "base.html" %}
+{% block additional_css %}
+<style>
+  .card-icon {
+      font-size: 3rem;
+      color: #4CAF50; /* Customize icon color */
+  }
+</style>
 
+{% endblock additional_css %}
 {% block content %}
-<div class="row">
-    <div class="col">
-        <div class="card m-2">
-            <div class="card-body">
-              <h5 class="card-title">Staff</h5>
-              <hr/>
-              <p class="card-text">Staff Count: {{staff_count}}</p>
-              <a href="#" class="btn btn-info">See List</a>
-            </div>
+<div class="row g-4">
+  <!-- Users Card -->
+  <div class="col-md-4">
+      <div class="card text-center shadow-sm">
+          <div class="card-body">
+              <i class="fas fa-motorcycle card-icon"></i>
+              <h5 class="card-title mt-3">Riders</h5>
+              <p class="card-text">Manage all users</p>
+              <a href="{% url 'riders' %}" class="btn btn-primary">View Users</a>
           </div>
-    </div>
-    <div class="col">
-        <div class="card m-2">
-            <div class="card-body">
-              <h5 class="card-title">Customers</h5>
-              <hr/>
-              <p class="card-text">Count: {{customers_count}}</p>
-              <a href="#" class="btn btn-info">See List</a>
-            </div>
-          </div>
-    </div>
-    <div class="col">
-        <div class="card m-2">
-            <div class="card-body">
-              <h5 class="card-title">Orders Placed Today</h5>
-              <hr/>
-              <p class="card-text">Orders Count: {{orders_placed_today}}</p>
-              <a href="#" class="btn btn-info">See Report</a>
-            </div>
-          </div>
-    </div>
+      </div>
   </div>
-  <div class="row">
-    <div class="col">
-        <div class="card m-2">
-            <div class="card-body">
-              <h5 class="card-title">Sales This Week</h5>
-              <hr/>
-              <p class="card-text">Amount: {{week_orders}}</p>
-              <a href="#" class="btn btn-info">See Report</a>
-            </div>
+
+  <!-- Orders Card -->
+  <div class="col-md-4">
+      <div class="card text-center shadow-sm">
+          <div class="card-body">
+              <i class="fas fa-shopping-cart card-icon"></i>
+              <h5 class="card-title mt-3">Orders</h5>
+              <p class="card-text">Track all orders</p>
+              <a href="{% url 'orders' %}" class="btn btn-primary">View Orders</a>
           </div>
-    </div>
-    <div class="col">
-        <div class="card m-2">
-            <div class="card-body">
-              <h5 class="card-title">Sales This Month</h5>
-              <hr/>
-              <p class="card-text">Amount: {{month_orders}}</p>
-              <a href="#" class="btn btn-info">See Report</a>
-            </div>
+      </div>
+  </div>
+
+  <!-- Daily Orders Card -->
+  <div class="col-md-4">
+      <div class="card text-center shadow-sm">
+          <div class="card-body">
+              <i class="fas fa-calendar-day card-icon"></i>
+              <h5 class="card-title mt-3">Daily Orders</h5>
+              <p class="card-text">View today's orders</p>
+              <a href="#" class="btn btn-primary">Daily Orders</a>
           </div>
-    </div>
-    <div class="col">
-        <div class="card m-2">
-            <div class="card-body">
-              <h5 class="card-title">Sales Today</h5>
-              <hr/>
-              <p class="card-text">Amount: {{orders_today}}</p>
-              <a href="#" class="btn btn-info">See Report</a>
-            </div>
+      </div>
+  </div>
+
+  <!-- Weekly Orders Card -->
+  <div class="col-md-4">
+      <div class="card text-center shadow-sm">
+          <div class="card-body">
+              <i class="fas fa-calendar-week card-icon"></i>
+              <h5 class="card-title mt-3">Weekly Orders</h5>
+              <p class="card-text">View weekly orders</p>
+              <a href="#" class="btn btn-primary">Weekly Orders</a>
           </div>
-    </div>
+      </div>
+  </div>
+
+  <!-- Deliveries Card -->
+  <div class="col-md-4">
+      <div class="card text-center shadow-sm">
+          <div class="card-body">
+              <i class="fas fa-truck card-icon"></i>
+              <h5 class="card-title mt-3">Deliveries</h5>
+              <p class="card-text">Manage deliveries</p>
+              <a href="{% url 'deliveries' %}" class="btn btn-primary">View Deliveries</a>
+          </div>
+      </div>
+  </div>
+
+  <!-- Employees Card -->
+  <div class="col-md-4">
+      <div class="card text-center shadow-sm">
+          <div class="card-body">
+              <i class="fas fa-user-tie card-icon"></i>
+              <h5 class="card-title mt-3">Employees</h5>
+              <p class="card-text">Manage employees</p>
+              <a href="{% url 'employees' %}" class="btn btn-primary">View Employees</a>
+          </div>
+      </div>
+  </div>
 </div>
 {% endblock %}

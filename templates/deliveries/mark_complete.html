@@ -9,7 +9,11 @@
                 {% csrf_token %}
                 <div class="modal-body">
                 <div class="mb-2">
+                  {% if delivery.delivery_type == "Single Order" %}
                     <p>Are you sure to mark delivery for order number: <b>{{delivery.order.order_number}}</b> as completed?</p>
+                  {% else %}
+                  <p>Are you sure to mark bundled delivery for rider named: <b>{{delivery.rider}}</b> as completed?</p>
+                  {% endif %}
                 </div>
                 <div class="mb-2">
                     <input

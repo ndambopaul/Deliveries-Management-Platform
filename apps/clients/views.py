@@ -9,6 +9,8 @@ from django.contrib.auth.decorators import login_required
 from apps.clients.models import Client, Order, OrderStatusUpdate
 from apps.deliveries.models import Delivery, DeliveryStatusUpdate
 from apps.clients.methods.upload_orders import UploadOrdersMixin
+
+
 # Create your views here.
 @login_required(login_url="/users/login")
 def clients(request):
@@ -18,10 +20,9 @@ def clients(request):
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    context = {
-        "page_obj": page_obj
-    }
+    context = {"page_obj": page_obj}
     return render(request, "clients/clients.html", context)
+
 
 @login_required(login_url="/users/login")
 def client_details(request, id):
@@ -32,27 +33,23 @@ def client_details(request, id):
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    context = {
-        "page_obj": page_obj,
-        "client": client
-    }
+    context = {"page_obj": page_obj, "client": client}
     return render(request, "clients/client_details.html", context)
+
 
 @login_required(login_url="/users/login")
 def client_orders(request, id):
     client = Client.objects.get(id=id)
     orders = client.clientorders.all().order_by("-created")
 
-    paginator = Paginator(orders, 10)
+    paginator = Paginator(orders, 8)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    context = {
-        "page_obj": page_obj,
-        "client": client
-    }
+    context = {"page_obj": page_obj, "client": client}
 
     return render(request, "orders/client_orders.html", context)
+
 
 @login_required(login_url="/users/login")
 def new_client(request):
@@ -73,10 +70,11 @@ def new_client(request):
             website=website,
             address=address,
             town=town,
-            country=country
+            country=country,
         )
         return redirect("clients")
     return render(request, "clients/new_client.html")
+
 
 @login_required(login_url="/users/login")
 def edit_client(request):
@@ -91,15 +89,15 @@ def edit_client(request):
         country = request.POST.get("country")
 
         client = Client.objects.get(id=client_id)
-        client.name=name
-        client.phone_number=phone_number
-        client.email=email
-        client.website=website
-        client.address=address
-        client.town=town
-        client.country=country
+        client.name = name
+        client.phone_number = phone_number
+        client.email = email
+        client.website = website
+        client.address = address
+        client.town = town
+        client.country = country
         client.save()
-        
+
         return redirect("clients")
     return render(request, "clients/new_client.html")
 
@@ -120,16 +118,14 @@ def orders(request):
     orders = Order.objects.filter(tenant=request.tenant).order_by("-created")
     clients = Client.objects.filter(tenant=request.tenant).order_by("-created")
 
-    paginator = Paginator(orders, 10)
+    paginator = Paginator(orders, 8)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    context = {
-        "page_obj": page_obj,
-        "clients": clients
-    }
+    context = {"page_obj": page_obj, "clients": clients}
 
     return render(request, "orders/orders.html", context)
+
 
 @login_required(login_url="/users/login")
 def new_order(request):
@@ -150,15 +146,14 @@ def new_order(request):
             customer_location=customer_location,
             customer_address=customer_address,
             client_id=client_id,
-            delivery_cost=delivery_cost
+            delivery_cost=delivery_cost,
         )
         OrderStatusUpdate.objects.create(
-            order=order,
-            previous_status="Created",
-            next_status="Pending Dispatch"
+            order=order, previous_status="Created", next_status="Pending Dispatch"
         )
         return redirect("orders")
     return render(request, "orders/new_order.html")
+
 
 @login_required(login_url="/users/login")
 @transaction.atomic
@@ -172,22 +167,20 @@ def dispatch_order(request):
         OrderStatusUpdate.objects.create(
             order=order,
             previous_status="Pending Dispatch",
-            next_status="Set For Delivery"
+            next_status="Set For Delivery",
         )
 
         delivery = Delivery.objects.create(
             order=order,
             tenant=request.tenant,
             delivery_status="Pending Dispatch",
-            delivery_cost=order.delivery_cost
+            delivery_cost=order.delivery_cost,
         )
 
         DeliveryStatusUpdate.objects.create(
-            delivery=delivery,
-            previous_status="Created",
-            next_status="Pending Dispatch"
+            delivery=delivery, previous_status="Created", next_status="Pending Dispatch"
         )
-        return redirect("orders")
+        return redirect("pending-dispatch-orders")
     return render(request, "orders/dispatch_order.html")
 
 
@@ -203,17 +196,18 @@ def edit_order(request):
         delivery_cost = request.POST.get("delivery_cost")
 
         order = Order.objects.get(id=order_id)
-        order.tenant=request.tenant
-        order.order_number=order_number
-        order.customer_name=customer_name
-        order.customer_phone=customer_phone
-        order.customer_location=customer_location
-        order.customer_address=customer_address
+        order.tenant = request.tenant
+        order.order_number = order_number
+        order.customer_name = customer_name
+        order.customer_phone = customer_phone
+        order.customer_location = customer_location
+        order.customer_address = customer_address
         order.delivery_cost = delivery_cost
         order.save()
-        
+
         return redirect("orders")
     return render(request, "orders/edit_order.html")
+
 
 @login_required(login_url="/users/login")
 def delete_order(request):
@@ -240,6 +234,6 @@ def upload_orders(request):
 
         except Exception as e:
             raise e
-        
+
         return redirect(f"/clients/client-orders/{client_id}")
     return render(request, "orders/upload_orders.html")

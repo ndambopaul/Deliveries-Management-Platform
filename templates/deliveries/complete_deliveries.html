@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block additional_css %}
+{% endblock additional_css %}
+
+{% block content %}
+<div class="row">
+    <div class="col">
+        <h3>Deliveries Completed</h3>
+    </div>
+    <div class="col">
+      <form method="POST">
+        {% csrf_token %}
+        <div class="input-group mb-3">
+            <div class="col">
+              <input type="text" class="form-control" name="search_text" id="search_text" placeholder="Order No...">
+            </div>
+            <input type="submit" hidden />
+          </div>
+      </form>
+    </div>
+</div>
+      <div class="table-responsive small">
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Customer</th>
+              <th scope="col">Order</th>
+              <th scope="col">Rider</th>
+              <th scope="col">Phone</th>
+              <th scope="col">Cost</th>
+              <th scope="col">Status</th>
+              <th scope="col" colspan="4"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for delivery in page_obj %}
+            <tr>
+              <td>{{delivery.id}}</td>
+              <td>{{delivery.order.customer_name}}</td>
+              <td>{{delivery.order.order_number}}</td>
+              <td>{{delivery.rider}}</td>
+              <td>{{delivery.order.customer_phone}}</td>
+              <td>{{delivery.delivery_cost}}</td>
+              <td>{{delivery.delivery_status}}</td>
+              <td>
+                <a href="" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#orderDetailsModal{{ order.id }}"><i class="bi bi-eye-fill"></i></a>
+              </td>
+            </tr>
+            
+            {% endfor %}
+
+          </tbody>
+        </table>
+        <div>
+          <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-end">
+              {% if page_obj.has_previous %}   
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+              {% endif %}
+              <a class="page-link" href="#">{{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</a>
+              {% if page_obj.has_next %}    
+              <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+              {% endif %}   
+            </ul>
+          </nav>
+        </div>
+      </div>
+{% endblock content %}

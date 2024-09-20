@@ -1,5 +1,11 @@
 from django.urls import path
-from apps.payments.views import rider_earnings, rider_payments, earning_payments, rider_payouts, new_payout
+from apps.payments.views import (
+    rider_earnings,
+    rider_payments,
+    earning_payments,
+    rider_payouts,
+    new_payout,
+)
 
 urlpatterns = [
     path("rider-earnings/", rider_earnings, name="rider-earnings"),

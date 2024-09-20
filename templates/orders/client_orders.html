@@ -5,30 +5,28 @@
 
 {% block content %}
 <div class="row">
-    <div class="col">
+    <div class="col-md-4">
         <h3>{{client.name}} Orders</h3>
     </div>
-    <div class="col">
+    <div class="col-md-4">
       <form method="POST">
         {% csrf_token %}
         <div class="input-group mb-3">
             <div class="col">
-              <input type="text" class="form-control" name="search_text" id="search_text" placeholder="Name ...">
+              <input type="number" hidden id="client_id" name="client_id" value="{{client.id}}" />
+              <input type="text" class="form-control" name="search_text" id="search_text" placeholder="Name/Order No...">
             </div>
             <input type="submit" hidden />
           </div>
       </form>
     </div>
-    <div class="col">
-      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newOrderModal">New Order</button>
-    </div>
-    <div class="col">
-      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#uploadOrdersModal">Upload Orders</button>
+    <div class="col-md-4">
+      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newOrderModal"><li class="fas fa-plus-circle"></li></button>
+      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#uploadOrdersModal"><li class="fas fa-upload"></li></button>
     </div>
 </div>
 {% include "orders/upload_orders.html" %}
-<hr/>
-      <div class="">
+      <div class="table-responsive small">
         <table class="table table-sm">
           <thead>
             <tr>

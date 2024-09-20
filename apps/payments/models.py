@@ -1,5 +1,7 @@
 from django.db import models
 from apps.core.models import AbstractBaseModel
+
+
 # Create your models here.
 class RiderEarning(AbstractBaseModel):
     tenant = models.ForeignKey("tenants.Tenant", on_delete=models.CASCADE)
@@ -26,6 +28,7 @@ class RiderPayment(AbstractBaseModel):
     def __str__(self):
         return self.rider.user.username
 
+
 class RiderPayout(AbstractBaseModel):
     tenant = models.ForeignKey("tenants.Tenant", on_delete=models.CASCADE)
     rider = models.ForeignKey("riders.Rider", on_delete=models.CASCADE)
@@ -35,6 +38,7 @@ class RiderPayout(AbstractBaseModel):
 
     def __str__(self):
         return self.rider.user.username
+
 
 class ClientInvoice(AbstractBaseModel):
     tenant = models.ForeignKey("tenants.Tenant", on_delete=models.CASCADE)
